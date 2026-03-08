@@ -1,38 +1,32 @@
-// =====================================================================
-// ১. DOMContentLoaded - যখন পুরো HTML লোড হয়ে যাবে
-// =====================================================================
 
 document.addEventListener("DOMContentLoaded", function(){
-    // লগিন ফর্ম ইভেন্ট লিসেনার
+   
     const loginForm = document.getElementById("loginForm");
     if(loginForm){
         loginForm.addEventListener("submit", handleLogin);
     }
     
-    // সার্চ বাটন ইভেন্ট লিসেনার
+   
     const searchBtn = document.getElementById("searchBtn");
     if(searchBtn){
         searchBtn.addEventListener("click", handleSearch);
     }
 
-    // ট্যাব ইভেন্ট লিসেনার
+    
     const tabs = document.querySelectorAll(".tab");
     tabs.forEach(tab => {
         tab.addEventListener("click", handleTabClick);
     });
 
-    // মডাল আছে কিনা চেক করি
+    
     if(!document.getElementById('issueModal')) {
         createModal();
     }
 
-    // Google Fonts এবং Font Awesome যোগ করি
+    
     addFontsAndIcons();
 });
 
-// =====================================================================
-// ফন্ট এবং আইকন যোগ করার ফাংশন
-// =====================================================================
 
 function addFontsAndIcons() {
     // Google Fonts
