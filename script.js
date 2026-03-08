@@ -263,3 +263,5 @@ function filterIssuesByStatus(status) {
     const filteredIssues = window.allIssues.filter(issue => issue.status === status);
     displayIssues(filteredIssues);
 }
+
+// final 
