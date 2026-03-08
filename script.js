@@ -9,6 +9,15 @@ document.addEventListener("DOMContentLoaded", function(){
         searchBtn.addEventListener("click", handleSearch);
     }
 
+    const searchInput = document.getElementById("searchInput");
+    if(searchInput){
+        searchInput.addEventListener("keypress", function(e){
+            if(e.key === "Enter"){
+                handleSearch();
+            }
+        });
+    }
+
     const tabs = document.querySelectorAll(".tab");
     tabs.forEach(tab => {
         tab.addEventListener("click", handleTabClick);
@@ -17,25 +26,7 @@ document.addEventListener("DOMContentLoaded", function(){
     if(!document.getElementById('issueModal')) {
         createModal();
     }
-
-    addFontsAndIcons();
 });
-
-function addFontsAndIcons() {
-    const fontLink = document.createElement('link');
-    fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
-    fontLink.rel = 'stylesheet';
-    document.head.appendChild(fontLink);
-
-    const faLink = document.createElement('link');
-    faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
-    faLink.rel = 'stylesheet';
-    document.head.appendChild(faLink);
-
-    const style = document.createElement('style');
-    style.textContent = `* { font-family: 'Inter', sans-serif; }`;
-    document.head.appendChild(style);
-}
 
 function handleLogin(event) {
     event.preventDefault();
@@ -236,7 +227,7 @@ function showLoading(show) {
 function handleSearch() {
     const searchTerm = document.getElementById('searchInput').value.trim();
     if(searchTerm === '') {
-        fetchAllIssues();
+        displayIssues(window.allIssues);
         return;
     }
     searchIssues(searchTerm);
@@ -263,20 +254,12 @@ function handleTabClick(event) {
     filterIssuesByStatus(event.target.dataset.status);
 }
 
-async function filterIssuesByStatus(status) {
-    showLoading(true);
-    try {
-        if(status === 'all') {
-            fetchAllIssues();
-            return;
-        }
-        const response = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
-        const data = await response.json();
-        const filteredIssues = data.data.filter(issue => issue.status === status);
-        displayIssues(filteredIssues);
-        showLoading(false);
-    } catch(error) {
-        console.error("Filter Error:", error);
-        showLoading(false);
+function filterIssuesByStatus(status) {
+    if(status === 'all'){
+        displayIssues(window.allIssues);
+        return;
     }
+
+    const filteredIssues = window.allIssues.filter(issue => issue.status === status);
+    displayIssues(filteredIssues);
 }
